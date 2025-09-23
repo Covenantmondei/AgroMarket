@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-7f&0mz9&(rw!rab-y0a!h4o1l4gyb6t(#95_e3eim0p+)^lfo4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://agromarket-20ix.onrender.com/', 'localhost', 'http://127.0.0.1:8000']
 
 
 # Application definition
