@@ -24,12 +24,18 @@ class UpdateFarmerView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
         try:
-            serializer = UpdateFarmerSerializer(data=request.data)
+            profile = Profile.objects.get(user=request.user)
+            farmer  = Farmer.objects.filter(profile=profile).first()
+            if not farmer:
+                return Response({"error": "Farmer profile does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+            serializer = UpdateFarmerSerializer(farmer, data=request.data, partial=True)
             if serializer.is_valid():
-                profile = Profile.objects.get(user=request.user)
                 serializer.save(profile=profile)
                 return Response({"message": "Farmer Profile Updated Successfully"}, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Farmer.DoesNotExist:
+            return Response({"error": "Farmer profile does not exist"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
