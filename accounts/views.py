@@ -14,6 +14,10 @@ class UpdateProfileView(APIView):
             serializer = UpdateProfileSerializer(user, data=request.data)
             if serializer.is_valid():
                 serializer.save()
+
+                if serializer.validated_data.get("role") == 'FARMER' or serializer.validated_data.get("role") == 'Farmer':
+                    Farmer.objects.get_or_create(profile=user)
+                    
                 return Response({"message": "Account Updated Successfully"}, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
