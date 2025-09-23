@@ -8,14 +8,7 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-        create = super().create(validated_data)
-
-        role = validated_data.get("role")
-
-        role = role.upper()
-
-        if role == 'FARMER':
-            Farmer.objects.create(profile=create.id)
+        return super().create(validated_data)
 
 
 class UpdateFarmerSerializer(serializers.ModelSerializer):
