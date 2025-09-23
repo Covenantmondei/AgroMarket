@@ -34,8 +34,7 @@ class UpdateFarmerView(APIView):
                 serializer.save(profile=profile)
                 return Response({"message": "Farmer Profile Updated Successfully"}, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Farmer.DoesNotExist:
-            return Response({"error": "Farmer profile does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
